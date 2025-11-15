@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/api/*": ["src/api/*"],
+      "@/components/*": ["src/MessageHub/components/*"],
+      "@/entities/*": ["src/MessageHub/entities/*"]
+    }
+  },
+  "exclude": ["node_modules", ".next"]
+}
