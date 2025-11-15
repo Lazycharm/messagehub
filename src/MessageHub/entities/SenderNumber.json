@@ -1,0 +1,43 @@
+{
+  "name": "SenderNumber",
+  "type": "object",
+  "properties": {
+    "label": {
+      "type": "string",
+      "description": "Friendly name"
+    },
+    "number_or_id": {
+      "type": "string",
+      "description": "Phone number or sender ID"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "phone",
+        "alphanumeric",
+        "email"
+      ],
+      "description": "Sender type"
+    },
+    "region": {
+      "type": "string",
+      "description": "Supported region"
+    },
+    "active": {
+      "type": "boolean",
+      "default": true
+    },
+    "provider": {
+      "type": "string"
+    },
+    "message_count": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "label",
+    "number_or_id",
+    "type"
+  ]
+}

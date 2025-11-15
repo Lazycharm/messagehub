@@ -1,0 +1,10 @@
+{
+  "name": "ChatRoom",
+  "fields": {
+    "name": "string",                   // User-defined label (e.g., Promo Line)
+    "twilioNumber": "string",          // The real assigned Twilio number
+    "assignedToUserIds": "string[]",   // Array of User IDs assigned to this chatroom
+    "channel": "string",               // sms | viber | whatsapp | email
+    "contacts": "relation(Contact)[]"  // Contacts assigned to this chatroom
+  }
+}

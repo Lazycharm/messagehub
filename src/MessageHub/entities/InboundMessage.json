@@ -1,0 +1,50 @@
+{
+  "name": "InboundMessage",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "sms",
+        "email"
+      ]
+    },
+    "from_address": {
+      "type": "string",
+      "description": "Phone number or email"
+    },
+    "to_address": {
+      "type": "string",
+      "description": "Receiving number or email"
+    },
+    "subject": {
+      "type": "string"
+    },
+    "content": {
+      "type": "string"
+    },
+    "provider_message_id": {
+      "type": "string"
+    },
+    "received_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "read": {
+      "type": "boolean",
+      "default": false
+    },
+    "replied": {
+      "type": "boolean",
+      "default": false
+    },
+    "contact_id": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "type",
+    "from_address",
+    "content"
+  ]
+}
