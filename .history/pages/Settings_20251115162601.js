@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { api } from '../lib/api';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tantml/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '../src/MessageHub/components/ui/card';
 import { Button } from '../src/MessageHub/components/ui/button';
 import { Input } from '../src/MessageHub/components/ui/input';

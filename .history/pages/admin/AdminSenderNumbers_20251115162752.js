@@ -15,11 +15,11 @@ export default function AdminSenderNumbers() {
 
   const { data: senderNumbers = [], isLoading } = useQuery({
     queryKey: ['senderNumbers'],
-    queryFn: api.senderNumbers.list
+    queryFn: () => base44.entities.SenderNumber.list()
   });
 
   const createMutation = useMutation({
-    mutationFn: api.senderNumbers.create,
+    mutationFn: (data) => base44.entities.SenderNumber.create(data),
     onSuccess: () => {
       queryClient.invalidateQueries(['senderNumbers']);
       setShowForm(false);
@@ -28,7 +28,7 @@ export default function AdminSenderNumbers() {
   });
 
   const updateMutation = useMutation({
-    mutationFn: ({ id, data }) => api.senderNumbers.update(id, data),
+    mutationFn: ({ id, data }) => base44.entities.SenderNumber.update(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries(['senderNumbers']);
       setShowForm(false);
@@ -37,12 +37,12 @@ export default function AdminSenderNumbers() {
   });
 
   const deleteMutation = useMutation({
-    mutationFn: api.senderNumbers.delete,
+    mutationFn: (id) => base44.entities.SenderNumber.delete(id),
     onSuccess: () => queryClient.invalidateQueries(['senderNumbers'])
   });
 
   const toggleActiveMutation = useMutation({
-    mutationFn: ({ id, active }) => api.senderNumbers.update(id, { active }),
+    mutationFn: ({ id, active }) => base44.entities.SenderNumber.update(id, { active }),
     onSuccess: () => queryClient.invalidateQueries(['senderNumbers'])
   });
 

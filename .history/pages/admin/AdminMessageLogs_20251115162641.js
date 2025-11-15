@@ -16,7 +16,7 @@ export default function AdminMessageLogs() {
 
   const { data: messages = [], isLoading } = useQuery({
     queryKey: ['allMessages'],
-    queryFn: () => api.allMessages.list(500)
+    queryFn: () => base44.entities.Message.list('-created_date', 500)
   });
 
   const filteredMessages = messages

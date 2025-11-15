@@ -145,40 +145,4 @@ export const api = {
       return res.json();
     },
   },
-  
-  senderNumbers: {
-    list: async () => {
-      const res = await fetch('/api/sender-numbers');
-      if (!res.ok) throw new Error('Failed to fetch sender numbers');
-      return res.json();
-    },
-    
-    create: async (data) => {
-      const res = await fetch('/api/sender-numbers', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      if (!res.ok) throw new Error('Failed to create sender number');
-      return res.json();
-    },
-    
-    update: async (id, data) => {
-      const res = await fetch(`/api/sender-numbers/${id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      if (!res.ok) throw new Error('Failed to update sender number');
-      return res.json();
-    },
-    
-    delete: async (id) => {
-      const res = await fetch(`/api/sender-numbers/${id}`, {
-        method: 'DELETE',
-      });
-      if (!res.ok) throw new Error('Failed to delete sender number');
-      return res.ok;
-    },
-  },
 };

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { api } from '../lib/api';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tantml/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '../src/MessageHub/components/ui/card';
 import { Button } from '../src/MessageHub/components/ui/button';
 import { Input } from '../src/MessageHub/components/ui/input';
@@ -35,9 +35,19 @@ export default function Settings() {
     }
   });
 
-  const handleSaveProfile = () => {
+  const handleSaveProfile = async () => {
+    setSaving(true);
     setResult(null);
-    updateProfileMutation.mutate({ full_name: profile.full_name });
+    try {
+      await base44.auth.updateMe({ full_name: profile.full_name });
+      setResult({ success: true, message: 'Profile updated successfully!' });
+      const updatedUser = await base44.auth.me();
+      setUser(updatedUser);
+    } catch (error) {
+      setResult({ success: false, message: error.message });
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -107,11 +117,11 @@ export default function Settings() {
 
               <Button
                 onClick={handleSaveProfile}
-                disabled={updateProfileMutation.isPending}
+                disabled={saving}
                 className="w-full bg-blue-600 hover:bg-blue-700"
               >
                 <Save className="w-4 h-4 mr-2" />
-                {updateProfileMutation.isPending ? 'Saving...' : 'Save Changes'}
+                {saving ? 'Saving...' : 'Save Changes'}
               </Button>
             </CardContent>
           </Card>

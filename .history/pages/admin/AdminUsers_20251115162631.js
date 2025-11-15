@@ -14,12 +14,12 @@ export default function AdminUsers() {
 
   const { data: users = [], isLoading } = useQuery({
     queryKey: ['users'],
-    queryFn: api.users.list
+    queryFn: () => base44.entities.User.list()
   });
 
   const updateRoleMutation = useMutation({
     mutationFn: async ({ userId, role }) => {
-      await api.users.update(userId, { role });
+      await base44.entities.User.update(userId, { role });
     },
     onSuccess: () => {
       queryClient.invalidateQueries(['users']);

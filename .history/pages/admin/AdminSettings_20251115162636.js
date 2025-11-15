@@ -18,11 +18,11 @@ export default function AdminSettings() {
 
   const { data: settings = [], isLoading } = useQuery({
     queryKey: ['settings'],
-    queryFn: api.settings.list
+    queryFn: () => base44.entities.Setting.list()
   });
 
   const createMutation = useMutation({
-    mutationFn: api.settings.create,
+    mutationFn: (data) => base44.entities.Setting.create(data),
     onSuccess: () => {
       queryClient.invalidateQueries(['settings']);
       setNewSetting({ key: '', value: '', category: 'general' });
@@ -32,7 +32,7 @@ export default function AdminSettings() {
   });
 
   const updateMutation = useMutation({
-    mutationFn: ({ id, data }) => api.settings.update(id, data),
+    mutationFn: ({ id, data }) => base44.entities.Setting.update(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries(['settings']);
       setResult({ success: true, message: 'Setting updated successfully!' });
@@ -41,7 +41,7 @@ export default function AdminSettings() {
   });
 
   const deleteMutation = useMutation({
-    mutationFn: api.settings.delete,
+    mutationFn: (id) => base44.entities.Setting.delete(id),
     onSuccess: () => queryClient.invalidateQueries(['settings'])
   });
 
