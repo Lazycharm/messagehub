@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { api } from '../lib/api';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Button } from '../src/MessageHub/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '../src/MessageHub/components/ui/card';
-import { Badge } from '../src/MessageHub/components/ui/badge';
+import { Button } from '../components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
+import { Badge } from '../components/ui/badge';
 import { Plus, MessageSquare, Mail, Edit, Trash2, Copy, FileText } from 'lucide-react';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '../src/MessageHub/components/ui/tabs';
-import TemplateForm from '../src/MessageHub/components/templates/TemplateForm';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '../components/ui/tabs';
+import TemplateForm from '../components/templates/TemplateForm';
 
 export default function Templates() {
   const [showForm, setShowForm] = useState(false);

@@ -1,11 +1,11 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '../lib/supabaseClient';
-import { Card, CardContent, CardHeader, CardTitle } from '../src/MessageHub/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { MessageSquare, Users, TrendingUp, Send, Inbox, CheckCircle } from 'lucide-react';
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import StatsCard from '../src/MessageHub/components/dashboard/StatsCard';
-import RecentMessages from '../src/MessageHub/components/dashboard/RecentMessages';
+import StatsCard from '../components/dashboard/StatsCard';
+import RecentMessages from '../components/dashboard/RecentMessages';
 
 export default function Dashboard() {
   const { data: messages = [] } = useQuery({

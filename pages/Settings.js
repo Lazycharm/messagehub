@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { api } from '../lib/api';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Card, CardContent, CardHeader, CardTitle } from '../src/MessageHub/components/ui/card';
-import { Button } from '../src/MessageHub/components/ui/button';
-import { Input } from '../src/MessageHub/components/ui/input';
-import { Label } from '../src/MessageHub/components/ui/label';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '../src/MessageHub/components/ui/tabs';
+import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
+import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/input';
+import { Label } from '../components/ui/label';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '../components/ui/tabs';
 import { User, Bell, Shield, Save } from 'lucide-react';
-import { Alert, AlertDescription } from '../src/MessageHub/components/ui/alert';
+import { Alert, AlertDescription } from '../components/ui/alert';
 
 export default function Settings() {
   const [profile, setProfile] = useState({ name: '', email: '' });

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { Button } from '../src/MessageHub/components/ui/button';
-import { Card, CardContent } from '../src/MessageHub/components/ui/card';
+import { Button } from '../components/ui/button';
+import { Card, CardContent } from '../components/ui/card';
 import { 
   MessageSquare, 
   Mail, 

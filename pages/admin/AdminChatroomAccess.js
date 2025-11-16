@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Card, CardContent, CardHeader, CardTitle } from '../../src/MessageHub/components/ui/card';
-import { Button } from '../../src/MessageHub/components/ui/button';
-import { Badge } from '../../src/MessageHub/components/ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../src/MessageHub/components/ui/select';
+import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
+import { Button } from '../../components/ui/button';
+import { Badge } from '../../components/ui/badge';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../components/ui/select';
 import { UserPlus, Trash2, Shield, MessageSquare, RefreshCw } from 'lucide-react';
-import { Alert, AlertDescription } from '../../src/MessageHub/components/ui/alert';
+import { Alert, AlertDescription } from '../../components/ui/alert';
 
 export default function AdminChatroomAccess() {
   const [selectedUser, setSelectedUser] = useState('');
@@ -262,3 +262,4 @@ export default function AdminChatroomAccess() {
     </div>
   );
 }
+

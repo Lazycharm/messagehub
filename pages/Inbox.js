@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Card, CardContent, CardHeader, CardTitle } from '../src/MessageHub/components/ui/card';
-import { Badge } from '../src/MessageHub/components/ui/badge';
-import { Button } from '../src/MessageHub/components/ui/button';
-import { Input } from '../src/MessageHub/components/ui/input';
-import { Tabs, TabsList, TabsTrigger } from '../src/MessageHub/components/ui/tabs';
+import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
+import { Badge } from '../components/ui/badge';
+import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/input';
+import { Tabs, TabsList, TabsTrigger } from '../components/ui/tabs';
 import { Inbox as InboxIcon, Mail, MessageSquare, Search, RefreshCw, Wifi, WifiOff } from 'lucide-react';
 import { format } from 'date-fns';
-import InboxMessageDetail from '../src/MessageHub/components/inbox/InboxMessageDetail';
+import InboxMessageDetail from '../components/inbox/InboxMessageDetail';
 import { supabase } from '../lib/supabaseClient';
 
 export default function Inbox() {
@@ -240,3 +240,4 @@ export default function Inbox() {
     </div>
   );
 }
+

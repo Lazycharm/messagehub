@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { api } from '../lib/api';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Card, CardContent, CardHeader, CardTitle } from '../src/MessageHub/components/ui/card';
-import { Button } from '../src/MessageHub/components/ui/button';
-import { Textarea } from '../src/MessageHub/components/ui/textarea';
-import { Label } from '../src/MessageHub/components/ui/label';
-import { Input } from '../src/MessageHub/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../src/MessageHub/components/ui/select';
-import { Alert, AlertDescription } from '../src/MessageHub/components/ui/alert';
+import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
+import { Button } from '../components/ui/button';
+import { Textarea } from '../components/ui/textarea';
+import { Label } from '../components/ui/label';
+import { Input } from '../components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
+import { Alert, AlertDescription } from '../components/ui/alert';
 import { Mail, Send, Clock } from 'lucide-react';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '../src/MessageHub/components/ui/tabs';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '../components/ui/tabs';
 
 export default function SendEmail() {
   const [recipient, setRecipient] = useState('');

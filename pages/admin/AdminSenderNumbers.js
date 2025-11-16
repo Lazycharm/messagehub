@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { api } from '../../lib/api';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Button } from '../../src/MessageHub/components/ui/button';
-import { Card, CardContent } from '../../src/MessageHub/components/ui/card';
-import { Badge } from '../../src/MessageHub/components/ui/badge';
+import { Button } from '../../components/ui/button';
+import { Card, CardContent } from '../../components/ui/card';
+import { Badge } from '../../components/ui/badge';
 import { Plus, Phone, Mail, Edit, Trash2, ToggleLeft, ToggleRight } from 'lucide-react';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../src/MessageHub/components/ui/table';
-import SenderNumberForm from '../../src/MessageHub/components/admin/SenderNumberForm';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../components/ui/table';
+import SenderNumberForm from '../../components/admin/SenderNumberForm';
 
 export default function AdminSenderNumbers() {
   const [showForm, setShowForm] = useState(false);
@@ -212,3 +212,4 @@ export default function AdminSenderNumbers() {
     </div>
   );
 }
+

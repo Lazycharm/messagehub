@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { api } from '../lib/api';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Button } from '../src/MessageHub/components/ui/button';
-import { Card, CardContent } from '../src/MessageHub/components/ui/card';
+import { Button } from '../components/ui/button';
+import { Card, CardContent } from '../components/ui/card';
 import { Plus, Users, Trash2, Edit, UserPlus } from 'lucide-react';
-import GroupForm from '../src/MessageHub/components/groups/GroupForm';
-import ManageGroupMembers from '../src/MessageHub/components/groups/ManageGroupMembers';
+import GroupForm from '../components/groups/GroupForm';
+import ManageGroupMembers from '../components/groups/ManageGroupMembers';
 
 export default function Groups() {
   const [showForm, setShowForm] = useState(false);

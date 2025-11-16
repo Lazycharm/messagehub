@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { api } from '../lib/api';
 import { useQuery } from '@tanstack/react-query';
-import { Card, CardContent, CardHeader, CardTitle } from '../src/MessageHub/components/ui/card';
-import { Tabs, TabsList, TabsTrigger } from '../src/MessageHub/components/ui/tabs';
+import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
+import { Tabs, TabsList, TabsTrigger } from '../components/ui/tabs';
 import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Download, TrendingUp, Globe } from 'lucide-react';
-import { Button } from '../src/MessageHub/components/ui/button';
+import { Button } from '../components/ui/button';
 
 export default function Reports() {
   const [timeRange, setTimeRange] = useState('7days');

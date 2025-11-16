@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Card, CardContent, CardHeader, CardTitle } from '../../src/MessageHub/components/ui/card';
-import { Button } from '../../src/MessageHub/components/ui/button';
-import { Input } from '../../src/MessageHub/components/ui/input';
-import { Badge } from '../../src/MessageHub/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
+import { Button } from '../../components/ui/button';
+import { Input } from '../../components/ui/input';
+import { Badge } from '../../components/ui/badge';
 import { Coins, Plus, Minus, Save, RefreshCw } from 'lucide-react';
-import { Alert, AlertDescription } from '../../src/MessageHub/components/ui/alert';
+import { Alert, AlertDescription } from '../../components/ui/alert';
 
 export default function AdminTokens() {
   const [editingUserId, setEditingUserId] = useState(null);
@@ -252,3 +252,4 @@ export default function AdminTokens() {
     </div>
   );
 }
+

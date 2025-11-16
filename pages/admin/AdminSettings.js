@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { api } from '../../lib/api';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Card, CardContent, CardHeader, CardTitle } from '../../src/MessageHub/components/ui/card';
-import { Button } from '../../src/MessageHub/components/ui/button';
-import { Input } from '../../src/MessageHub/components/ui/input';
-import { Label } from '../../src/MessageHub/components/ui/label';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '../../src/MessageHub/components/ui/tabs';
+import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
+import { Button } from '../../components/ui/button';
+import { Input } from '../../components/ui/input';
+import { Label } from '../../components/ui/label';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '../../components/ui/tabs';
 import { Settings as SettingsIcon, Save, Plus, Trash2 } from 'lucide-react';
-import { Alert, AlertDescription } from '../../src/MessageHub/components/ui/alert';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../src/MessageHub/components/ui/table';
-import { Badge } from '../../src/MessageHub/components/ui/badge';
+import { Alert, AlertDescription } from '../../components/ui/alert';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../components/ui/table';
+import { Badge } from '../../components/ui/badge';
 
 export default function AdminSettings() {
   const [newSetting, setNewSetting] = useState({ key: '', value: '', category: 'general' });
@@ -269,3 +269,4 @@ export default function AdminSettings() {
     </div>
   );
 }
+

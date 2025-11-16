@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { api } from '../lib/api';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Button } from '../src/MessageHub/components/ui/button';
-import { Input } from '../src/MessageHub/components/ui/input';
+import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/input';
 import { Plus, Search, Upload, Download, Trash2, Edit } from 'lucide-react';
-import ContactForm from '../src/MessageHub/components/contacts/ContactForm';
-import ContactsTable from '../src/MessageHub/components/contacts/ContactsTable';
-import BulkImport from '../src/MessageHub/components/contacts/BulkImport';
-import { Badge } from '../src/MessageHub/components/ui/badge';
+import ContactForm from '../components/contacts/ContactForm';
+import ContactsTable from '../components/contacts/ContactsTable';
+import BulkImport from '../components/contacts/BulkImport';
+import { Badge } from '../components/ui/badge';
 
 export default function Contacts() {
   const [showForm, setShowForm] = useState(false);

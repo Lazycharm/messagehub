@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { api } from '../../lib/api';
 import { useQuery } from '@tanstack/react-query';
-import { Card, CardContent } from '../../src/MessageHub/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../src/MessageHub/components/ui/table';
-import { Badge } from '../../src/MessageHub/components/ui/badge';
-import { Input } from '../../src/MessageHub/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../src/MessageHub/components/ui/select';
+import { Card, CardContent } from '../../components/ui/card';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../components/ui/table';
+import { Badge } from '../../components/ui/badge';
+import { Input } from '../../components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../components/ui/select';
 import { MessageSquare, Mail, Search, Filter } from 'lucide-react';
 import { format } from 'date-fns';
 
@@ -205,3 +205,4 @@ export default function AdminMessageLogs() {
     </div>
   );
 }
+

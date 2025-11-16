@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { Card, CardContent, CardHeader, CardTitle } from '../src/MessageHub/components/ui/card';
-import { Button } from '../src/MessageHub/components/ui/button';
-import { Input } from '../src/MessageHub/components/ui/input';
-import { Label } from '../src/MessageHub/components/ui/label';
-import { Alert, AlertDescription } from '../src/MessageHub/components/ui/alert';
+import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
+import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/input';
+import { Label } from '../components/ui/label';
+import { Alert, AlertDescription } from '../components/ui/alert';
 import { Send, Lock, Mail, Loader2 } from 'lucide-react';
 
 export default function Login() {
@@ -147,3 +147,4 @@ export default function Login() {
     </div>
   );
 }
+
