@@ -16,22 +16,45 @@ export default async function handler(req, res) {
     // Generate new access token (8 characters)
     const newToken = generateAccessToken();
 
-    // Update the user's token
-    const { data, error } = await supabase
+    // Check if token exists
+    const { data: existing } = await supabase
       .from('user_tokens')
-      .update({
-        access_token: newToken,
-        assigned_at: new Date().toISOString()
-      })
+      .select('id')
       .eq('user_id', userId)
-      .select()
       .single();
+
+    let data, error;
+
+    if (existing) {
+      // Update existing token
+      ({ data, error } = await supabase
+        .from('user_tokens')
+        .update({
+          access_token: newToken,
+          assigned_at: new Date().toISOString()
+        })
+        .eq('user_id', userId)
+        .select()
+        .single());
+    } else {
+      // Create new token
+      ({ data, error } = await supabase
+        .from('user_tokens')
+        .insert([{
+          user_id: userId,
+          access_token: newToken,
+          is_approved: false,
+          is_active: true
+        }])
+        .select()
+        .single());
+    }
 
     if (error) throw error;
 
     return res.status(200).json({
       token: data,
-      message: 'Access token regenerated successfully'
+      message: 'Access token generated successfully'
     });
   } catch (error) {
     console.error('Error regenerating token:', error);
