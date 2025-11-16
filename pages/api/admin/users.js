@@ -39,9 +39,9 @@ export default async function handler(req, res) {
 
   if (req.method === 'POST') {
     try {
-      const { email, name, full_name, password, role = 'user' } = req.body;
+      const { email, name, full_name, password } = req.body;
 
-      // Create user
+      // Create user - let database handle default role
       const { data: user, error: userError } = await supabase
         .from('users')
         .insert([{
@@ -49,7 +49,6 @@ export default async function handler(req, res) {
           name: name || full_name,
           full_name: full_name || name,
           password_hash: password ? await hashPassword(password) : null,
-          role,
           is_approved: false
         }])
         .select()

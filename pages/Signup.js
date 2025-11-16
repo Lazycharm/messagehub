@@ -57,8 +57,7 @@ export default function Signup() {
           email: formData.email,
           password: formData.password,
           full_name: formData.full_name,
-          name: formData.full_name,
-          role: 'user'
+          name: formData.full_name
         })
       });
 
