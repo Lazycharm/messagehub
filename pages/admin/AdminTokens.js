@@ -10,11 +10,14 @@ export default function AdminTokens() {
   const [result, setResult] = useState(null);
   const queryClient = useQueryClient();
 
-  const { data: users = [], isLoading } = useQuery({
+  const { data: users = [], isLoading, error: fetchError } = useQuery({
     queryKey: ['usersWithApproval'],
     queryFn: async () => {
       const res = await fetch('/api/admin/users');
-      if (!res.ok) throw new Error('Failed to fetch users');
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Failed to fetch users');
+      }
       return res.json();
     },
   });
@@ -97,6 +100,12 @@ export default function AdminTokens() {
       {result && (
         <Alert variant={result.success ? 'default' : 'destructive'}>
           <AlertDescription>{result.message}</AlertDescription>
+        </Alert>
+      )}
+
+      {fetchError && (
+        <Alert variant="destructive">
+          <AlertDescription>Error loading users: {fetchError.message}</AlertDescription>
         </Alert>
       )}
 
