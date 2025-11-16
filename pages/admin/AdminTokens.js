@@ -59,8 +59,9 @@ export default function AdminTokens() {
       }
       return res.json();
     },
-    onSuccess: (data) => {
-      queryClient.invalidateQueries(['usersWithApproval']);
+    onSuccess: async (data) => {
+      await queryClient.invalidateQueries(['usersWithApproval']);
+      await queryClient.refetchQueries(['usersWithApproval']);
       setResult({ success: true, message: data.message });
       setTimeout(() => setResult(null), 3000);
     },
