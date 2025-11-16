@@ -56,6 +56,9 @@ export default function Home() {
                   <Button variant="ghost" onClick={handleLogin}>
                     Login
                   </Button>
+                  <Button variant="outline" onClick={() => router.push('/Signup')}>
+                    Sign Up
+                  </Button>
                   <Button onClick={handleGetStarted} className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700">
                     Get Started
                     <ArrowRight className="w-4 h-4 ml-2" />
@@ -87,10 +90,10 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button 
                   size="lg" 
-                  onClick={handleGetStarted}
+                  onClick={() => router.push('/Signup')}
                   className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-lg px-8 py-6"
                 >
-                  Get Started Free
+                  Sign Up Free
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </Button>
                 <Button 
@@ -269,10 +272,10 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
               size="lg" 
-              onClick={handleGetStarted}
+              onClick={() => router.push('/Signup')}
               className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-lg px-8 py-6"
             >
-              Start Free Trial
+              Create Free Account
               <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
             <Button 
