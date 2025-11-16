@@ -110,8 +110,9 @@ async function runAllTests() {
       data: {
         email: `test-${Date.now()}@example.com`,
         password_hash: 'dummy_hash',
+        name: 'Test User',
         full_name: 'Test User',
-        role: 'user'
+        role: 'admin'
       }
     },
     {
