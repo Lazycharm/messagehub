@@ -9,7 +9,9 @@ export default async function handler(req, res) {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      return res.status(200).json(data || []);
+      // Map is_active to active for frontend compatibility
+      const mapped = (data || []).map(row => ({ ...row, active: row.is_active }));
+      return res.status(200).json(mapped);
     } catch (error) {
       console.error('Error fetching sender numbers:', error);
       return res.status(500).json({ error: error.message });
@@ -22,12 +24,13 @@ export default async function handler(req, res) {
       
       const { data, error } = await supabase
         .from('sender_numbers')
-        .insert([{ label, number_or_id, type, region, active: active !== false }])
+        .insert([{ label, number_or_id, type, region, is_active: active !== false }])
         .select()
         .single();
 
       if (error) throw error;
-      return res.status(201).json(data);
+      // Map is_active to active for frontend compatibility
+      return res.status(201).json({ ...data, active: data.is_active });
     } catch (error) {
       console.error('Error creating sender number:', error);
       return res.status(500).json({ error: error.message });
