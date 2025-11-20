@@ -503,7 +503,7 @@ export default function AdminProviders() {
                 ) : providers.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={5} className="text-center py-8 text-gray-500">
-                      No providers configured. Click "Add Provider" to get started.
+                      No providers configured. Click &ldquo;Add Provider&rdquo; to get started.
                     </TableCell>
                   </TableRow>
                 ) : (

@@ -255,7 +255,7 @@ export default function AdminUserNumbers() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">User Real Numbers (Mini-Chatrooms)</h1>
-          <p className="text-gray-500 mt-1">Manage user's actual phone numbers and messaging identities</p>
+          <p className="text-gray-500 mt-1">Manage user&apos;s actual phone numbers and messaging identities</p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline" onClick={handleExport} className="gap-2">
