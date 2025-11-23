@@ -97,10 +97,61 @@ export default function AdminSettings() {
     }
   };
 
-  const handleSaveConfig = (category) => {
-    setResult({ success: true, message: `${category} configuration saved!` });
-    setTimeout(() => setResult(null), 3000);
-    // In production, this would save to backend
+  const handleSaveConfig = async (category) => {
+    try {
+      const token = localStorage.getItem('sb-access-token');
+      
+      // Map of config keys to save based on category
+      const configMap = {
+        'Notification': {
+          admin_alert_email: systemConfig.admin_alert_email,
+          low_quota_threshold: systemConfig.low_quota_threshold,
+          enable_system_notifications: systemConfig.enable_system_notifications,
+        },
+        'Email': {
+          smtp_host: systemConfig.smtp_host,
+          smtp_port: systemConfig.smtp_port,
+          smtp_user: systemConfig.smtp_user,
+          smtp_password: systemConfig.smtp_password,
+          smtp_from_email: systemConfig.smtp_from_email,
+          smtp_from_name: systemConfig.smtp_from_name,
+        },
+        'Quota': {
+          default_sms_quota: systemConfig.default_sms_quota,
+          default_email_quota: systemConfig.default_email_quota,
+          default_quota_period: systemConfig.default_quota_period,
+        },
+        'Security': {
+          min_password_length: systemConfig.min_password_length,
+          require_special_char: systemConfig.require_special_char,
+          session_timeout: systemConfig.session_timeout,
+          max_login_attempts: systemConfig.max_login_attempts,
+        }
+      };
+
+      const configToSave = configMap[category];
+      
+      if (configToSave) {
+        const res = await fetch('/api/admin/system-config', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+          body: JSON.stringify({ config: configToSave, category }),
+        });
+
+        if (!res.ok) {
+          throw new Error('Failed to save configuration');
+        }
+      }
+
+      setResult({ success: true, message: `${category} configuration saved!` });
+      setTimeout(() => setResult(null), 3000);
+    } catch (error) {
+      setResult({ success: false, message: error.message });
+      setTimeout(() => setResult(null), 3000);
+    }
   };
 
   const getCategoryColor = (category) => {
@@ -407,6 +458,17 @@ export default function AdminSettings() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-4">
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                  <div className="flex items-start gap-3">
+                    <Info className="w-5 h-5 text-blue-600 mt-0.5" />
+                    <div>
+                      <p className="text-sm text-blue-900 font-medium">Send Custom Notifications</p>
+                      <p className="text-xs text-blue-700 mt-1">
+                        Visit the <a href="/admin/AdminNotifications" className="underline font-medium">Notifications Management</a> page to send custom notifications to users.
+                      </p>
+                    </div>
+                  </div>
+                </div>
                 <div>
                   <Label>Admin Alert Email</Label>
                   <Input

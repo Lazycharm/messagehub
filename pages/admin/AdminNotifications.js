@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import AppLayout from '../../components/AppLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
@@ -13,11 +13,12 @@ import {
   TableHeader,
   TableRow,
 } from '../../components/ui/table';
-import { Bell, Plus, Trash2, Users, User as UserIcon, Info, AlertTriangle, CheckCircle, XCircle } from 'lucide-react';
+import { Bell, Plus, Trash2, Users, User as UserIcon, Info, AlertTriangle, CheckCircle, XCircle, Settings as SettingsIcon } from 'lucide-react';
 
 export default function AdminNotifications() {
   const queryClient = useQueryClient();
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [systemEnabled, setSystemEnabled] = useState(true);
   const [newNotification, setNewNotification] = useState({
     title: '',
     message: '',
@@ -26,6 +27,25 @@ export default function AdminNotifications() {
     target_user_id: '',
     target_role: '',
   });
+
+  // Check if system notifications are enabled
+  useEffect(() => {
+    const checkSystemSettings = async () => {
+      try {
+        const token = localStorage.getItem('sb-access-token');
+        const res = await fetch('/api/admin/system-config', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (res.ok) {
+          const config = await res.json();
+          setSystemEnabled(config.enable_system_notifications === 'true');
+        }
+      } catch (error) {
+        console.error('Failed to check system settings:', error);
+      }
+    };
+    checkSystemSettings();
+  }, []);
 
   // Fetch all users for dropdown
   const { data: users = [] } = useQuery({
@@ -142,11 +162,35 @@ export default function AdminNotifications() {
             <h1 className="text-2xl font-bold text-gray-900">Admin Notifications</h1>
             <p className="text-gray-600">Send notifications to users</p>
           </div>
-          <Button onClick={() => setShowCreateModal(true)} className="gap-2">
-            <Plus className="w-4 h-4" />
-            Create Notification
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              onClick={() => window.location.href = '/admin/AdminSettings'}
+              className="gap-2"
+            >
+              <SettingsIcon className="w-4 h-4" />
+              Notification Settings
+            </Button>
+            <Button onClick={() => setShowCreateModal(true)} className="gap-2" disabled={!systemEnabled}>
+              <Plus className="w-4 h-4" />
+              Create Notification
+            </Button>
+          </div>
         </div>
+
+        {!systemEnabled && (
+          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+            <div className="flex items-start gap-3">
+              <AlertTriangle className="w-5 h-5 text-yellow-600 mt-0.5" />
+              <div>
+                <p className="text-sm text-yellow-900 font-medium">System Notifications Disabled</p>
+                <p className="text-xs text-yellow-700 mt-1">
+                  Enable system notifications in <a href="/admin/AdminSettings" className="underline font-medium">System Settings</a> to send notifications to users.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Notifications Table */}
         <Card>
