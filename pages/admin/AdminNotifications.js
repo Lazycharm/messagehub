@@ -158,25 +158,19 @@ export default function AdminNotifications() {
   return (
     <AppLayout>
       <div className="p-6">
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">Admin Notifications</h1>
-            <p className="text-gray-600">Send notifications to users</p>
-          </div>
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              onClick={() => window.location.href = '/admin/AdminSettings'}
-              className="gap-2"
-            >
-              <SettingsIcon className="w-4 h-4" />
-              Notification Settings
-            </Button>
-            <Button onClick={() => setShowCreateModal(true)} className="gap-2" disabled={!systemEnabled}>
-              <Plus className="w-4 h-4" />
-              Create Notification
-            </Button>
-          </div>
+        <div className="flex items-center justify-end gap-2 mb-6">
+          <Button
+            variant="outline"
+            onClick={() => window.location.href = '/admin/AdminSettings'}
+            className="gap-2"
+          >
+            <SettingsIcon className="w-4 h-4" />
+            Notification Settings
+          </Button>
+          <Button onClick={() => setShowCreateModal(true)} className="gap-2" disabled={!systemEnabled}>
+            <Plus className="w-4 h-4" />
+            Create Notification
+          </Button>
         </div>
 
         {!systemEnabled && (

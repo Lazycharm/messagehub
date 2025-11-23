@@ -401,14 +401,7 @@ export default function AdminResourcePool() {
   return (
     <AppLayout>
       <div className="p-6 max-w-full">
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h1 className="text-3xl font-bold">Resource Pool</h1>
-            <p className="text-gray-600 mt-1">
-              Master database of client phone numbers for assignment
-            </p>
-          </div>
-          <div className="flex gap-2">
+        <div className="flex items-center justify-end gap-2 mb-6">
             <input
               ref={fileInputRef}
               type="file"
