@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import {
@@ -33,6 +33,9 @@ export default function AppLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [notifications, setNotifications] = useState([]);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const notificationRef = useRef(null);
   const router = useRouter();
   const currentPath = router.pathname;
 
@@ -73,6 +76,46 @@ export default function AppLayout({ children }) {
 
     fetchUser();
   }, [currentPath, router]);
+
+  // Fetch notifications periodically
+  useEffect(() => {
+    if (!user) return;
+
+    const fetchNotifications = async () => {
+      try {
+        const token = localStorage.getItem('sb-access-token');
+        const response = await fetch('/api/notifications/unread', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setNotifications(data.notifications || []);
+        }
+      } catch (error) {
+        console.error('Failed to fetch notifications:', error);
+      }
+    };
+
+    fetchNotifications();
+    const interval = setInterval(fetchNotifications, 30000); // Poll every 30 seconds
+
+    return () => clearInterval(interval);
+  }, [user]);
+
+  // Close notifications dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+        setShowNotifications(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   // Don't apply layout to Home page, Login page, or Signup page
   if (currentPath === '/Home' || currentPath === '/' || currentPath === '/Login' || currentPath === '/Signup') {
@@ -248,11 +291,79 @@ export default function AppLayout({ children }) {
                 </h2>
               </div>
             )}
-            <div className="flex items-center gap-3 ml-auto">
-              <Button variant="ghost" size="icon" className="relative">
-                <Bell className="w-5 h-5" />
-                <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
-              </Button>
+            <div className="flex items-center gap-3 ml-auto" ref={notificationRef}>
+              <div className="relative">
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="relative"
+                  onClick={() => setShowNotifications(!showNotifications)}
+                >
+                  <Bell className="w-5 h-5" />
+                  {notifications.length > 0 && (
+                    <span className="absolute top-1 right-1 w-5 h-5 bg-red-500 rounded-full text-white text-xs flex items-center justify-center">
+                      {notifications.length > 9 ? '9+' : notifications.length}
+                    </span>
+                  )}
+                </Button>
+
+                {/* Notifications Dropdown */}
+                {showNotifications && (
+                  <div className="absolute right-0 mt-2 w-96 bg-white rounded-lg shadow-xl border border-gray-200 z-50 max-h-[500px] overflow-hidden">
+                    <div className="p-4 border-b border-gray-200">
+                      <h3 className="font-semibold text-gray-900">Notifications</h3>
+                      <p className="text-sm text-gray-500">{notifications.length} unread</p>
+                    </div>
+                    
+                    <div className="overflow-y-auto max-h-[400px]">
+                      {notifications.length === 0 ? (
+                        <div className="p-8 text-center text-gray-500">
+                          <Bell className="w-12 h-12 mx-auto mb-3 text-gray-300" />
+                          <p>No new notifications</p>
+                        </div>
+                      ) : (
+                        <div className="divide-y divide-gray-100">
+                          {notifications.map((notif) => (
+                            <div 
+                              key={notif.id}
+                              className="p-4 hover:bg-gray-50 cursor-pointer transition-colors"
+                              onClick={() => {
+                                router.push('/Chatroom');
+                                setShowNotifications(false);
+                              }}
+                            >
+                              <div className="flex items-start gap-3">
+                                <div className="w-2 h-2 bg-blue-600 rounded-full mt-2" />
+                                <div className="flex-1">
+                                  <p className="font-medium text-sm text-gray-900">{notif.title}</p>
+                                  <p className="text-sm text-gray-600 mt-1">{notif.message}</p>
+                                  <p className="text-xs text-gray-400 mt-1">
+                                    {new Date(notif.timestamp).toLocaleString()}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    {notifications.length > 0 && (
+                      <div className="p-3 border-t border-gray-200 text-center">
+                        <button 
+                          className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+                          onClick={() => {
+                            setNotifications([]);
+                            setShowNotifications(false);
+                          }}
+                        >
+                          Clear all
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </header>
