@@ -13,6 +13,18 @@ export default async function handler(req, res) {
       return res.status(403).json({ error: 'Admin access required' });
     }
 
+    // Check if supabaseAdmin is available
+    if (!supabaseAdmin) {
+      console.error('supabaseAdmin is not available - check SUPABASE_SERVICE_ROLE_KEY');
+      return res.status(500).json({ 
+        error: 'Server configuration error',
+        messages: [],
+        users: [],
+        chatrooms: [],
+        senderNumbers: []
+      });
+    }
+
     // Fetch all data using admin client to bypass RLS
     const [messagesRes, usersRes, chatroomsRes, senderNumbersRes] = await Promise.all([
       supabaseAdmin
@@ -31,19 +43,21 @@ export default async function handler(req, res) {
         .select('*')
     ]);
 
-    if (messagesRes.error) throw messagesRes.error;
-    if (usersRes.error) throw usersRes.error;
-    if (chatroomsRes.error) throw chatroomsRes.error;
-    if (senderNumbersRes.error) throw senderNumbersRes.error;
-
+    // Return data even if some queries failed
     res.status(200).json({
-      messages: messagesRes.data || [],
-      users: usersRes.data || [],
-      chatrooms: chatroomsRes.data || [],
-      senderNumbers: senderNumbersRes.data || []
+      messages: messagesRes.error ? [] : (messagesRes.data || []),
+      users: usersRes.error ? [] : (usersRes.data || []),
+      chatrooms: chatroomsRes.error ? [] : (chatroomsRes.data || []),
+      senderNumbers: senderNumbersRes.error ? [] : (senderNumbersRes.data || [])
     });
   } catch (error) {
     console.error('Error fetching admin stats:', error);
-    res.status(500).json({ error: error.message });
+    res.status(200).json({ 
+      error: error.message,
+      messages: [],
+      users: [],
+      chatrooms: [],
+      senderNumbers: []
+    });
   }
 }
