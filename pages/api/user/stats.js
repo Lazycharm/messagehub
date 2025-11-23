@@ -74,18 +74,28 @@ export default async function handler(req, res) {
     }
 
     // Calculate statistics
+    const deliveredCount = messages?.filter(m => m.status === 'delivered').length || 0;
+    const totalSent = messages?.length || 0;
+    
+    console.log('[User Stats] Debug:', {
+      userId,
+      totalMessages: totalSent,
+      deliveredMessages: deliveredCount,
+      sampleStatuses: messages?.slice(0, 5).map(m => ({ id: m.id, status: m.status }))
+    });
+
     const stats = {
       messages: messages || [],
       contacts: contacts || [],
       chatrooms: userChatrooms || [],
       inboundMessages: inboundMessages,
-      totalSent: messages?.length || 0,
-      totalDelivered: messages?.filter(m => m.status === 'delivered').length || 0,
+      totalSent,
+      totalDelivered: deliveredCount,
       totalContacts: contacts?.length || 0,
       totalChatrooms: userChatrooms?.length || 0,
       totalInbound: inboundMessages.length,
-      deliveryRate: messages?.length > 0
-        ? ((messages.filter(m => m.status === 'delivered').length / messages.length) * 100).toFixed(1)
+      deliveryRate: totalSent > 0
+        ? ((deliveredCount / totalSent) * 100).toFixed(1)
         : 0
     };
 
