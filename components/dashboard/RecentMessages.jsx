@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Badge } from '../ui/badge';
-import { MessageSquare, Mail, Clock, ArrowUp, ArrowDown } from 'lucide-react';
+import { Button } from '../ui/button';
+import { MessageSquare, Mail, Clock, ArrowUp, ArrowDown, ChevronLeft, ChevronRight } from 'lucide-react';
 
 export default function RecentMessages({ messages }) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const messagesPerPage = 5;
+  
+  const totalPages = Math.ceil(messages.length / messagesPerPage);
+  const startIndex = (currentPage - 1) * messagesPerPage;
+  const endIndex = startIndex + messagesPerPage;
+  const currentMessages = messages.slice(startIndex, endIndex);
+
   const getStatusColor = (status) => {
     const colors = {
       delivered: 'bg-green-100 text-green-800',
@@ -30,17 +39,44 @@ export default function RecentMessages({ messages }) {
   return (
     <Card className="shadow-lg">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Clock className="w-5 h-5 text-indigo-600" />
-          Recent Messages
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2">
+            <Clock className="w-5 h-5 text-indigo-600" />
+            Recent Messages
+          </CardTitle>
+          {messages.length > messagesPerPage && (
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                disabled={currentPage === 1}
+                className="h-8 w-8 p-0"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </Button>
+              <span className="text-xs text-gray-600">
+                {currentPage} / {totalPages}
+              </span>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                disabled={currentPage === totalPages}
+                className="h-8 w-8 p-0"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </Button>
+            </div>
+          )}
+        </div>
       </CardHeader>
       <CardContent>
         <div className="space-y-3">
-          {messages.length === 0 ? (
+          {currentMessages.length === 0 ? (
             <p className="text-center text-gray-500 py-8">No messages yet</p>
           ) : (
-            messages.map((message) => (
+            currentMessages.map((message) => (
               <div key={message.id} className="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors border border-gray-100">
                 <div className={`p-2 rounded-lg ${message.type === 'sms' ? 'bg-blue-100' : 'bg-purple-100'}`}>
                   {message.type === 'sms' ? (
