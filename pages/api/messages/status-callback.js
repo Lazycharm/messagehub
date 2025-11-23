@@ -1,4 +1,4 @@
-import { supabase } from '../../../lib/supabaseClient';
+import { supabaseAdmin } from '../../../lib/supabaseClient';
 
 /**
  * POST: Twilio Status Callback - Updates message delivery status
@@ -34,8 +34,8 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Missing MessageSid or MessageStatus' });
     }
 
-    // Update message status in database
-    const { data, error } = await supabase
+    // Update message status in database using admin client to bypass RLS
+    const { data, error } = await supabaseAdmin
       .from('messages')
       .update({ 
         status: MessageStatus.toLowerCase(),
