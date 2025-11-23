@@ -18,6 +18,20 @@ export default async function handler(req, res) {
 
     console.log('[Notifications] Fetching for user:', user.id);
 
+    // Get admin notifications for this user
+    const { data: adminNotifications, error: adminNotifError } = await supabaseAdmin
+      .from('admin_notifications')
+      .select('*')
+      .or(`target_user_id.eq.${user.id},target_role.eq.${user.role || 'user'}`)
+      .eq('is_read', false)
+      .order('created_at', { ascending: false });
+
+    if (adminNotifError) {
+      console.error('[Notifications] Error fetching admin notifications:', adminNotifError);
+    }
+
+    console.log('[Notifications] Admin notifications:', adminNotifications?.length || 0);
+
     // Get user's chatrooms using admin client
     const { data: assignments, error: assignError } = await supabaseAdmin
       .from('user_chatrooms')
@@ -56,8 +70,8 @@ export default async function handler(req, res) {
 
     console.log('[Notifications] Found messages:', messages?.length || 0);
 
-    // Format notifications
-    const notifications = (messages || []).map(msg => ({
+    // Format message notifications
+    const messageNotifications = (messages || []).map(msg => ({
       id: msg.id,
       chatroom_id: msg.chatroom_id,
       type: 'new_message',
@@ -67,11 +81,26 @@ export default async function handler(req, res) {
       read: false
     }));
 
-    console.log('[Notifications] Returning', notifications.length, 'notifications');
+    // Format admin notifications
+    const formattedAdminNotifications = (adminNotifications || []).map(notif => ({
+      id: notif.id,
+      type: notif.type,
+      title: notif.title,
+      message: notif.message,
+      timestamp: notif.created_at,
+      read: notif.is_read,
+      isAdminNotification: true
+    }));
+
+    // Combine and sort by timestamp
+    const allNotifications = [...formattedAdminNotifications, ...messageNotifications]
+      .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+    console.log('[Notifications] Returning', allNotifications.length, 'notifications');
 
     return res.status(200).json({
-      count: notifications.length,
-      notifications
+      count: allNotifications.length,
+      notifications: allNotifications
     });
   } catch (error) {
     console.error('Notifications API error:', error);

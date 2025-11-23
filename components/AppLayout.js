@@ -153,6 +153,7 @@ export default function AppLayout({ children }) {
   const adminNavigation = [
     { name: 'Dashboard', icon: LayoutDashboard, href: '/Dashboard' },
     { name: 'Users', icon: Shield, href: '/admin/AdminUsers' },
+    { name: 'Notifications', icon: Bell, href: '/admin/AdminNotifications' },
     { name: 'API Providers', icon: Database, href: '/admin/AdminProviders' },
     { name: 'Chatrooms', icon: MessageSquare, href: '/admin/AdminChatrooms' },
     { name: 'Resource Pool', icon: Database, href: '/admin/AdminResourcePool' },
@@ -328,12 +329,31 @@ export default function AppLayout({ children }) {
                               key={notif.id}
                               className="p-4 hover:bg-gray-50 cursor-pointer transition-colors"
                               onClick={() => {
-                                router.push('/Chatroom');
+                                if (notif.isAdminNotification) {
+                                  // Mark admin notification as read
+                                  fetch('/api/notifications/mark-read', {
+                                    method: 'POST',
+                                    headers: {
+                                      'Content-Type': 'application/json',
+                                      'Authorization': `Bearer ${localStorage.getItem('sb-access-token')}`,
+                                    },
+                                    body: JSON.stringify({ id: notif.id }),
+                                  });
+                                  // Remove from local state
+                                  setNotifications(prev => prev.filter(n => n.id !== notif.id));
+                                } else {
+                                  router.push('/Chatroom');
+                                }
                                 setShowNotifications(false);
                               }}
                             >
                               <div className="flex items-start gap-3">
-                                <div className="w-2 h-2 bg-blue-600 rounded-full mt-2" />
+                                <div className={`w-2 h-2 rounded-full mt-2 ${
+                                  notif.type === 'error' ? 'bg-red-600' :
+                                  notif.type === 'warning' ? 'bg-yellow-600' :
+                                  notif.type === 'success' ? 'bg-green-600' :
+                                  'bg-blue-600'
+                                }`} />
                                 <div className="flex-1">
                                   <p className="font-medium text-sm text-gray-900">{notif.title}</p>
                                   <p className="text-sm text-gray-600 mt-1">{notif.message}</p>
