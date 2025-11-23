@@ -612,5 +612,3 @@ export default function Resources() {
     </AppLayout>
   );
 }
-  );
-}
