@@ -533,7 +533,7 @@ export default function Resources() {
                 <p>No resources found</p>
                 {resources.length === 0 && (
                   <p className="text-sm mt-2">
-                    Click "Add Resource" to add your first contact resource
+                    Click &quot;Add Resource&quot; to add your first contact resource
                   </p>
                 )}
               </div>
