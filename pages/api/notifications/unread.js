@@ -1,4 +1,4 @@
-import { supabase } from '../../../lib/supabaseClient';
+import { supabase, supabaseAdmin } from '../../../lib/supabaseClient';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
@@ -16,11 +16,19 @@ export default async function handler(req, res) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
 
-    // Get user's chatrooms
-    const { data: assignments } = await supabase
+    console.log('[Notifications] Fetching for user:', user.id);
+
+    // Get user's chatrooms using admin client
+    const { data: assignments, error: assignError } = await supabaseAdmin
       .from('user_chatrooms')
       .select('chatroom_id')
       .eq('user_id', user.id);
+
+    if (assignError) {
+      console.error('[Notifications] Error fetching assignments:', assignError);
+    }
+
+    console.log('[Notifications] User chatrooms:', assignments?.length || 0);
 
     if (!assignments || assignments.length === 0) {
       return res.status(200).json({ count: 0, notifications: [] });
@@ -28,24 +36,25 @@ export default async function handler(req, res) {
 
     const chatroomIds = assignments.map(a => a.chatroom_id);
 
-    // Get unread messages count (messages where user hasn't replied or seen)
-    // For simplicity, we'll get messages from the last 24 hours that aren't from the user
+    // Get messages from the last 24 hours that aren't from the user
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
 
-    const { data: messages, error } = await supabase
+    const { data: messages, error } = await supabaseAdmin
       .from('messages')
-      .select('id, chatroom_id, sender, body, created_at')
+      .select('id, chatroom_id, sender, body, created_at, direction')
       .in('chatroom_id', chatroomIds)
-      .neq('user_id', user.id) // Not sent by the user
+      .eq('direction', 'inbound') // Only inbound messages (from customers)
       .gte('created_at', yesterday.toISOString())
       .order('created_at', { ascending: false })
       .limit(10);
 
     if (error) {
-      console.error('Error fetching notifications:', error);
+      console.error('[Notifications] Error fetching messages:', error);
       return res.status(500).json({ error: 'Failed to fetch notifications' });
     }
+
+    console.log('[Notifications] Found messages:', messages?.length || 0);
 
     // Format notifications
     const notifications = (messages || []).map(msg => ({
@@ -57,6 +66,8 @@ export default async function handler(req, res) {
       timestamp: msg.created_at,
       read: false
     }));
+
+    console.log('[Notifications] Returning', notifications.length, 'notifications');
 
     return res.status(200).json({
       count: notifications.length,
